@@ -40,4 +40,8 @@
     "light": "Ayu Light",
     "dark": "Zedokai (Filter Octagon)",
   },
+  "terminal": {
+    "font_family": "JetBrainsMono Nerd Font Mono",
+    "font_size": 14,
+  },
 }

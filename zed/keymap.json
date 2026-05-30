@@ -6,6 +6,59 @@
     },
   },
   {
+    "context": "Dock || Terminal || Editor",
+    "bindings": {
+      "space f s": "workspace::ToggleZoom",
+      "space l": "workspace::ToggleLeftDock",
+      "space r": "workspace::ToggleRightDock",
+      "space b": "workspace::ToggleBottomDock",
+      "ctrl-h": "workspace::ActivatePaneLeft",
+      "ctrl-l": "workspace::ActivatePaneRight",
+      "ctrl-k": "workspace::ActivatePaneUp",
+      "ctrl-j": "workspace::ActivatePaneDown",
+    },
+  },
+  {
+    "context": "GitPanel",
+    "bindings": {
+      "space g g": "git_panel::Close",
+      "space g p": "git::Push",
+      "space g shift-p": "git::Pull",
+      "space g shift-s": "git::Switch",
+      "space g c": "git::Commit",
+      "space g c m": "git::GenerateCommitMessage",
+      "space g s": "git::StashAll",
+      "space g s p": "git::StashPop",
+      "space g s a": "git::StashAll",
+    },
+  },
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "n f": "project_panel::NewFile",
+      "n d": "project_panel::NewDirectory",
+      "d": "project_panel::Delete",
+      "r": "project_panel::Rename",
+      "space p p": "project_panel::Toggle",
+    },
+  },
+  {
+    "context": "Editor && VimControl && !VimWaiting && !menu",
+    "bindings": {
+      "space p p": "project_panel::ToggleFocus",
+      "space c p": "command_palette::Toggle",
+      "space space": "file_finder::Toggle",
+      "space t": "workspace::NewTerminal",
+      // git actions
+      "space g g": "git_panel::ToggleFocus",
+      "space g p": "git::Push",
+      "space g shift-p": "git::Pull",
+      "space g shift-s": "git::Switch",
+
+      "space a a": "agent::NewThread",
+    },
+  },
+  {
     "context": "Editor && vim_mode == insert",
     "bindings": {
       // "j k": "vim::NormalBefore"
