@@ -10,8 +10,8 @@ function sync_repo() {
     fi
 
     git checkout main
-
     git -C "$HOME/.dotfiles" pull
+
     section "Successfully synced Git repository"
 }
 
@@ -22,31 +22,41 @@ function link_dotfiles() {
         link_file "$HOME/.dotfiles/$src" "${dest/#\~/$HOME}"
     done < "$HOME/.dotfiles/symlinks.conf"
 
-    section "Successfully Linked Dotfiles"
+    section "Successfully linked Dotfiles"
 }
 
 function install_starship() {
+    section "Installing Starship"
+
     if is_installed starship; then
         warn "Starship already installed, skipping"
         return
     else
         curl -sS https://starship.rs/install.sh | sh -s -- --yes &>/dev/null
     fi
+
+    section "Successfully installed Starship"
 }
 
-function install_auto_suggestions() {
+function install_autosuggestions() {
+    section "Installing Autosuggestions"
+
     if [[ "$OSTYPE" == "darwin"* ]]; then
         if brew list | grep zsh-autosuggestions &>/dev/null; then
             warn "Auto Suggestions already installed, skipping"
             section "Successfully Installed Auto Suggestions"
             return
         fi
+
         info "Installing via Homebrew..."
+
         brew install zsh-autosuggestions
     fi
+
+    section "Successfully installed Autosuggestions"
 }
 
-install_fonts() {
+function install_fonts() {
     section "Installing Fonts"
 
     if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -55,7 +65,9 @@ install_fonts() {
             section "Successfully Installed Fonts"
             return
         fi
+
         info "Installing via Homebrew..."
+
         brew tap homebrew/cask-fonts
         brew install --cask font-jetbrains-mono-nerd-font
 
@@ -64,7 +76,9 @@ install_fonts() {
             section "Successfully Installed Fonts"
             return
         fi
+
         info "Downloading JetBrains Mono Nerd Font..."
+
         local font_dir="$HOME/.local/share/fonts"
         mkdir -p "$font_dir"
         curl -fLo "$font_dir/JetBrainsMono.zip" \
@@ -82,7 +96,7 @@ main() {
     link_dotfiles
     install_fonts
     install_starship
-    install_auto_suggestions
+    install_autosuggestions
 }
 
 main
