@@ -43,6 +43,10 @@
   {
     "context": "Editor && VimControl && !VimWaiting && !menu && vim_mode != insert",
     "bindings": {
+      // close pane
+      "space q": "pane::CloseActiveItem",
+      "space q a": "pane::CloseAllItems",
+
       // window splitting
       "space s v": "pane::SplitVertical",
       "space s h": "pane::SplitHorizontal",
