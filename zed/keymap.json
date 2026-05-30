@@ -9,6 +9,12 @@
     },
   },
   {
+    "context": "TerminalPanel || Terminal",
+    "bindings": {
+      "space q": "terminal_panel::Toggle",
+    },
+  },
+  {
     "context": "GitPanel || GitPanel > Editor && VimControl && !VimWaiting && vim_mode != insert",
     "bindings": {
       "space f c": "git_panel::FocusChanges",
@@ -37,13 +43,14 @@
   {
     "context": "Editor && VimControl && !VimWaiting && !menu && vim_mode != insert",
     "bindings": {
+      "space s d": "pane::SplitDown",
       "space l": "workspace::ToggleLeftDock",
       "space r": "workspace::ToggleRightDock",
       "space b": "workspace::ToggleBottomDock",
       "space p p": "project_panel::ToggleFocus",
       "space c p": "command_palette::Toggle",
       "space space": "file_finder::Toggle",
-      "space t": "workspace::NewTerminal",
+      "space t": "terminal_panel::ToggleFocus",
 
       // git actions
       "space g g": "git_panel::ToggleFocus",
