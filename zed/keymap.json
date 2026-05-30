@@ -1,11 +1,5 @@
 [
   {
-    "context": "Workspace",
-    "bindings": {
-      // "shift shift": "file_finder::Toggle"
-    },
-  },
-  {
     "context": "Dock || Terminal || Editor",
     "bindings": {
       "space f s": "workspace::ToggleZoom",
@@ -21,6 +15,8 @@
   {
     "context": "GitPanel",
     "bindings": {
+      "space f c": "git_panel::FocusChanges",
+      "space f m": "git_panel::FocusEditor",
       "space g g": "git_panel::Close",
       "space g p": "git::Push",
       "space g shift-p": "git::Pull",
