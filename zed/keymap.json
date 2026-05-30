@@ -37,23 +37,29 @@
       "n d": "project_panel::NewDirectory",
       "d": "project_panel::Delete",
       "r": "project_panel::Rename",
-      "space p p": "project_panel::Toggle",
+      "space q": "project_panel::Toggle",
     },
   },
   {
     "context": "Editor && VimControl && !VimWaiting && !menu && vim_mode != insert",
     "bindings": {
-      "space s d": "pane::SplitDown",
+      // window splitting
+      "space s v": "pane::SplitVertical",
+      "space s h": "pane::SplitHorizontal",
+
+      // toggling docks
       "space l": "workspace::ToggleLeftDock",
       "space r": "workspace::ToggleRightDock",
       "space b": "workspace::ToggleBottomDock",
+
+      // focus panes
+      "space g g": "git_panel::ToggleFocus",
+      "space t": "terminal_panel::ToggleFocus",
       "space p p": "project_panel::ToggleFocus",
       "space c p": "command_palette::Toggle",
       "space space": "file_finder::Toggle",
-      "space t": "terminal_panel::ToggleFocus",
 
       // git actions
-      "space g g": "git_panel::ToggleFocus",
       "space g p": "git::Push",
       "space g shift-p": "git::Pull",
       "space g shift-s": "git::Switch",
