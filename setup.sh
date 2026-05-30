@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
-source ./functions/print.sh
-source ./functions/utility.sh
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$DIR/functions/print.sh"
+source "$DIR/functions/utility.sh"
 
 function sync_repo() {
     section "Syncing Git repository"
@@ -9,7 +10,7 @@ function sync_repo() {
         git clone https://github.com/dylkim05/dotfiles.git "$HOME/.dotfiles"
     fi
 
-    git checkout main
+    git -C "$HOME/.dotfiles" checkout main
     git -C "$HOME/.dotfiles" pull
 
     section "Successfully synced Git repository"
@@ -42,7 +43,7 @@ function install_autosuggestions() {
     section "Installing Autosuggestions"
 
     if [[ "$OSTYPE" == "darwin"* ]]; then
-        if brew list | grep zsh-autosuggestions &>/dev/null; then
+        if brew list zsh-autosuggestions &>/dev/null; then
             warn "Auto Suggestions already installed, skipping"
             section "Successfully Installed Auto Suggestions"
             return
@@ -68,11 +69,11 @@ function install_fonts() {
 
         info "Installing via Homebrew..."
 
-        brew tap homebrew/cask-fonts
         brew install --cask font-jetbrains-mono-nerd-font
 
     elif [[ "$OSTYPE" == "linux"* ]]; then
         if fc-list | grep -q "JetBrainsMono"; then
+            warn "JetBrains Mono already installed, skipping"
             section "Successfully Installed Fonts"
             return
         fi

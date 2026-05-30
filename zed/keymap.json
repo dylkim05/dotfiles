@@ -1,11 +1,7 @@
 [
   {
-    "context": "Dock || Terminal || Editor",
+    "context": "Dock || Terminal || Editor && VimControl && vim_mode != insert",
     "bindings": {
-      "space f s": "workspace::ToggleZoom",
-      "space l": "workspace::ToggleLeftDock",
-      "space r": "workspace::ToggleRightDock",
-      "space b": "workspace::ToggleBottomDock",
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-l": "workspace::ActivatePaneRight",
       "ctrl-k": "workspace::ActivatePaneUp",
@@ -17,7 +13,7 @@
     "bindings": {
       "space f c": "git_panel::FocusChanges",
       "space f m": "git_panel::FocusEditor",
-      "space g g": "git_panel::Close",
+      "space q": "git_panel::Close",
       "space g p": "git::Push",
       "space g shift-p": "git::Pull",
       "space g shift-s": "git::Switch",
@@ -39,8 +35,11 @@
     },
   },
   {
-    "context": "Editor && VimControl && !VimWaiting && !menu",
+    "context": "Editor && VimControl && !VimWaiting && !menu && vim_mode != insert",
     "bindings": {
+      "space l": "workspace::ToggleLeftDock",
+      "space r": "workspace::ToggleRightDock",
+      "space b": "workspace::ToggleBottomDock",
       "space p p": "project_panel::ToggleFocus",
       "space c p": "command_palette::Toggle",
       "space space": "file_finder::Toggle",
@@ -51,13 +50,28 @@
       "space g shift-p": "git::Pull",
       "space g shift-s": "git::Switch",
 
-      "space a a": "agent::NewThread",
+      "space a a": "agent::ToggleFocus",
+      "space n a": "agent::ToggleFocus",
     },
   },
   {
-    "context": "Editor && vim_mode == insert",
+    "context": "AgentPanel > Editor && vim_mode != insert",
     "bindings": {
-      // "j k": "vim::NormalBefore"
+      "space q": "workspace::ToggleRightDock",
+      "space n t": "agent::NewThread",
+      "space l": "workspace::ToggleLeftDock",
+      "space r": "workspace::ToggleRightDock",
+      "space b": "workspace::ToggleBottomDock",
+    },
+  },
+  {
+    "context": "AgentPanel > Editor && vim_mode == insert",
+    "bindings": {
+      "space q": null,
+      "space n t": null,
+      "space l": null,
+      "space r": null,
+      "space b": null,
     },
   },
 ]
