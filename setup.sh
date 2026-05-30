@@ -1,6 +1,88 @@
 #!/usr/bin/env bash
-source ./utils.sh
+source ./functions/print.sh
+source ./functions/utility.sh
 
-while IFS=' ' read -r src dest; do
-    link_file "$HOME/.dotfiles/$src" "${dest/#\~/$HOME}"
-done < "$HOME/.dotfiles/symlinks.conf"
+function sync_repo() {
+    section "Syncing Git repository"
+
+    if ! check_dir "$HOME/.dotfiles"; then
+        git clone https://github.com/dylkim05/dotfiles.git "$HOME/.dotfiles"
+    fi
+
+    git checkout main
+
+    git -C "$HOME/.dotfiles" pull
+    section "Successfully synced Git repository"
+}
+
+function link_dotfiles() {
+    section "Linking Dotfiles"
+
+    while IFS=' ' read -r src dest; do
+        link_file "$HOME/.dotfiles/$src" "${dest/#\~/$HOME}"
+    done < "$HOME/.dotfiles/symlinks.conf"
+
+    section "Successfully Linked Dotfiles"
+}
+
+function install_starship() {
+    if is_installed starship; then
+        warn "Starship already installed, skipping"
+        return
+    else
+        curl -sS https://starship.rs/install.sh | sh -s -- --yes &>/dev/null
+    fi
+}
+
+function install_auto_suggestions() {
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        if brew list | grep zsh-autosuggestions &>/dev/null; then
+            warn "Auto Suggestions already installed, skipping"
+            section "Successfully Installed Auto Suggestions"
+            return
+        fi
+        info "Installing via Homebrew..."
+        brew install zsh-autosuggestions
+    fi
+}
+
+install_fonts() {
+    section "Installing Fonts"
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        if brew list --cask font-jetbrains-mono-nerd-font &>/dev/null; then
+            warn "JetBrains Mono already installed, skipping"
+            section "Successfully Installed Fonts"
+            return
+        fi
+        info "Installing via Homebrew..."
+        brew tap homebrew/cask-fonts
+        brew install --cask font-jetbrains-mono-nerd-font
+
+    elif [[ "$OSTYPE" == "linux"* ]]; then
+        if fc-list | grep -q "JetBrainsMono"; then
+            section "Successfully Installed Fonts"
+            return
+        fi
+        info "Downloading JetBrains Mono Nerd Font..."
+        local font_dir="$HOME/.local/share/fonts"
+        mkdir -p "$font_dir"
+        curl -fLo "$font_dir/JetBrainsMono.zip" \
+            https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
+        unzip -o "$font_dir/JetBrainsMono.zip" -d "$font_dir"
+        rm "$font_dir/JetBrainsMono.zip"
+        fc-cache -fv
+    fi
+
+    info "Done!"
+}
+
+main() {
+    sync_repo
+    link_dotfiles
+    install_fonts
+    install_starship
+    install_auto_suggestions
+}
+
+main
