@@ -29,8 +29,6 @@ brew bundle
 
 ```
 .dotfiles/
-├── git/
-│   └── gitconfig         → ~/.gitconfig
 ├── shell/
 │   ├── zshrc             → ~/.zshrc
 │   ├── bashrc            → ~/.bashrc
