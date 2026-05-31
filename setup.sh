@@ -42,17 +42,33 @@ function install_starship() {
 function install_autosuggestions() {
     section "Installing Autosuggestions"
 
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        if brew list zsh-autosuggestions &>/dev/null; then
-            warn "Auto Suggestions already installed, skipping"
-            section "Successfully Installed Auto Suggestions"
-            return
-        fi
-
-        info "Installing via Homebrew..."
-
-        brew install zsh-autosuggestions
-    fi
+    echo "Which shell are you setting up?"
+    select shell_choice in "zsh" "bash"; do
+        case "$shell_choice" in
+            zsh)
+                if brew list zsh-autosuggestions &>/dev/null; then
+                    warn "Auto Suggestions already installed, skipping"
+                else
+                    info "Installing zsh-autosuggestions via Homebrew..."
+                    brew install zsh-autosuggestions
+                fi
+                break
+                ;;
+            bash)
+                if [ -f ~/.local/share/blesh/ble.sh ]; then
+                    warn "ble.sh already installed, skipping"
+                else
+                    info "Installing ble.sh for bash autosuggestions..."
+                    git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git
+                    make -C ble.sh install PREFIX=~/.local
+                fi
+                break
+                ;;
+            *)
+                warn "Invalid choice, please select 1 (zsh) or 2 (bash)"
+                ;;
+        esac
+    done
 
     section "Successfully installed Autosuggestions"
 }
