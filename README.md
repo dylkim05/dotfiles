@@ -5,12 +5,8 @@ Personal dotfiles for macOS, managed with symlinks.
 ## Setup
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/dylkim05/dotfiles/main/setup.sh | bash
-```
-
-Or if already cloned:
-
-```sh
+git clone https://github.com/dylkim05/dotfiles.git ~/.dotfiles
+cd ~/.dotfiles
 ./setup.sh
 ```
 
@@ -20,7 +16,7 @@ The setup script will:
 2. Symlink all config files to their target locations
 3. Install JetBrains Mono Nerd Font
 4. Install [Starship](https://starship.rs) prompt
-5. Install zsh-autosuggestions
+5. Install shell autosuggestions (zsh-autosuggestions or ble.sh depending on your shell choice)
 
 ## Structure
 
@@ -31,7 +27,7 @@ The setup script will:
 ├── shell/
 │   ├── zshrc             → ~/.zshrc
 │   ├── bashrc            → ~/.bashrc
-│   └── starship/         → starship prompt config
+│   └── starship/         # starship prompt config
 ├── zed/
 │   ├── keymap.json       → ~/.config/zed/keymap.json
 │   └── settings.json     → ~/.config/zed/settings.json
