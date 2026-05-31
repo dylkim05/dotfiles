@@ -3,3 +3,14 @@
     email = me@dylanjkim.com
 [init]
 	defaultBranch = main
+[pull]
+	rebase = true
+[core]
+	editor = zed --wait
+	autocrlf = input
+[alias]
+	lg = log --oneline --graph --decorate --all
+	st = status -sb
+	undo = reset --soft HEAD~1
+	co = checkout
+	cm = commit -m

@@ -12,11 +12,18 @@ cd ~/.dotfiles
 
 The setup script will:
 
-1. Clone/sync the repo to `~/.dotfiles`
-2. Symlink all config files to their target locations
-3. Install JetBrains Mono Nerd Font
-4. Install [Starship](https://starship.rs) prompt
-5. Install shell autosuggestions (zsh-autosuggestions or ble.sh depending on your shell choice)
+1. Install [Homebrew](https://brew.sh) if not already present
+2. Clone/sync the repo to `~/.dotfiles`
+3. Symlink all config files to their target locations (existing files are backed up as `.bak`)
+4. Install JetBrains Mono Nerd Font
+5. Install [Starship](https://starship.rs) prompt
+6. Install shell autosuggestions (zsh-autosuggestions or ble.sh depending on your shell choice)
+
+You can also install all tools declaratively via the Brewfile:
+
+```sh
+brew bundle
+```
 
 ## Structure
 
@@ -34,6 +41,7 @@ The setup script will:
 ├── functions/
 │   ├── print.sh          # logging helpers
 │   └── utility.sh        # install/link helpers
+├── Brewfile              # declarative tool/app installs
 ├── symlinks.conf         # symlink mappings (src → dest)
 └── setup.sh              # bootstrap script
 ```

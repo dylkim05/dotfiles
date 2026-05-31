@@ -3,15 +3,38 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$DIR/functions/print.sh"
 source "$DIR/functions/utility.sh"
 
+function install_homebrew() {
+    section "Checking Homebrew"
+
+    if [[ "$OSTYPE" != "darwin"* ]]; then
+        info "Not macOS, skipping Homebrew install"
+        return
+    fi
+
+    if is_installed brew; then
+        warn "Homebrew already installed, skipping"
+    else
+        info "Installing Homebrew..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    fi
+
+    section "Homebrew ready"
+}
+
 function sync_repo() {
     section "Syncing Git repository"
 
     if ! check_dir "$HOME/.dotfiles"; then
         git clone https://github.com/dylkim05/dotfiles.git "$HOME/.dotfiles"
+        git -C "$HOME/.dotfiles" checkout main
+    else
+        info "Repo already exists, pulling latest changes"
+        if git -C "$HOME/.dotfiles" diff --quiet && git -C "$HOME/.dotfiles" diff --cached --quiet; then
+            git -C "$HOME/.dotfiles" pull
+        else
+            warn "Uncommitted changes detected, skipping pull"
+        fi
     fi
-
-    git -C "$HOME/.dotfiles" checkout main
-    git -C "$HOME/.dotfiles" pull
 
     section "Successfully synced Git repository"
 }
@@ -109,6 +132,7 @@ function install_fonts() {
 }
 
 main() {
+    install_homebrew
     sync_repo
     link_dotfiles
     install_fonts

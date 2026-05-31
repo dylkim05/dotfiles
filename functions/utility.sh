@@ -5,7 +5,10 @@ function link_file() {
     if [ -L "$dest" ]; then
         info "Already linked: $dest, skipping"
     elif [ -f "$dest" ]; then
-        warn "Real file exists: $dest, skipping"
+        warn "Real file exists at $dest, backing up to $dest.bak"
+        mv "$dest" "$dest.bak"
+        ln -sf "$src" "$dest"
+        info "Linked: $dest"
     else
         ln -sf "$src" "$dest"
         echo "Linked: $dest"
