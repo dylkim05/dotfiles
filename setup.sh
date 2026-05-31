@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$DIR/functions/print.sh"
 source "$DIR/functions/utility.sh"
@@ -49,13 +50,41 @@ function link_dotfiles() {
     section "Successfully linked Dotfiles"
 }
 
+function install_fonts() {
+    section "Installing Fonts"
+
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        if brew list --cask font-jetbrains-mono-nerd-font &>/dev/null; then
+            warn "JetBrains Mono already installed, skipping"
+        else
+            info "Installing via Homebrew..."
+            brew install --cask font-jetbrains-mono-nerd-font
+        fi
+
+    elif [[ "$OSTYPE" == "linux"* ]]; then
+        if fc-list | grep -q "JetBrainsMono"; then
+            warn "JetBrains Mono already installed, skipping"
+        else
+            info "Downloading JetBrains Mono Nerd Font..."
+            local font_dir="$HOME/.local/share/fonts"
+            mkdir -p "$font_dir"
+            curl -fLo "$font_dir/JetBrainsMono.zip" \
+                https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
+            unzip -o "$font_dir/JetBrainsMono.zip" -d "$font_dir"
+            rm "$font_dir/JetBrainsMono.zip"
+            fc-cache -fv
+        fi
+    fi
+
+    section "Successfully installed Fonts"
+}
+
 function install_starship() {
     section "Installing Starship"
 
     if is_installed starship; then
         warn "Starship already installed, skipping"
-        return
-    else
+else
         curl -sS https://starship.rs/install.sh | sh -s -- --yes &>/dev/null
     fi
 
@@ -70,7 +99,7 @@ function install_autosuggestions() {
         case "$shell_choice" in
             zsh)
                 if brew list zsh-autosuggestions &>/dev/null; then
-                    warn "Auto Suggestions already installed, skipping"
+                    warn "zsh-autosuggestions already installed, skipping"
                 else
                     info "Installing zsh-autosuggestions via Homebrew..."
                     brew install zsh-autosuggestions
@@ -96,39 +125,43 @@ function install_autosuggestions() {
     section "Successfully installed Autosuggestions"
 }
 
-function install_fonts() {
-    section "Installing Fonts"
+function install_gh_cli() {
+    section "Installing GitHub CLI"
 
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        if brew list --cask font-jetbrains-mono-nerd-font &>/dev/null; then
-            warn "JetBrains Mono already installed, skipping"
-            section "Successfully Installed Fonts"
+    if ! is_installed gh; then
+        if [[ "$OSTYPE" == "darwin"* ]]; then
+            info "Installing gh via Homebrew..."
+            brew install gh
+
+        elif [[ "$OSTYPE" == "linux"* ]]; then
+            info "Installing gh via apt..."
+            (type -p wget >/dev/null || (sudo apt update && sudo apt install wget -y)) \
+                && sudo mkdir -p -m 755 /etc/apt/keyrings \
+                && out=$(mktemp) && wget -nv -O "$out" https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+                && cat "$out" | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+                && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+                && sudo mkdir -p -m 755 /etc/apt/sources.list.d \
+                && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" \
+                    | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+                && sudo apt update \
+                && sudo apt install gh -y
+
+        else
+            warn "Unsupported OS, skipping GitHub CLI install"
             return
         fi
-
-        info "Installing via Homebrew..."
-
-        brew install --cask font-jetbrains-mono-nerd-font
-
-    elif [[ "$OSTYPE" == "linux"* ]]; then
-        if fc-list | grep -q "JetBrainsMono"; then
-            warn "JetBrains Mono already installed, skipping"
-            section "Successfully Installed Fonts"
-            return
-        fi
-
-        info "Downloading JetBrains Mono Nerd Font..."
-
-        local font_dir="$HOME/.local/share/fonts"
-        mkdir -p "$font_dir"
-        curl -fLo "$font_dir/JetBrainsMono.zip" \
-            https://github.com/ryanoasis/nerd-fonts/releases/latest/download/JetBrainsMono.zip
-        unzip -o "$font_dir/JetBrainsMono.zip" -d "$font_dir"
-        rm "$font_dir/JetBrainsMono.zip"
-        fc-cache -fv
+    else
+        warn "GitHub CLI already installed, skipping"
     fi
 
-    info "Done!"
+    if ! gh auth status &>/dev/null; then
+        info "Not logged in, running gh auth login..."
+        gh auth login
+    else
+        warn "Already authenticated with GitHub, skipping"
+    fi
+
+    section "GitHub CLI ready"
 }
 
 main() {
@@ -138,6 +171,7 @@ main() {
     install_fonts
     install_starship
     install_autosuggestions
+    install_gh_cli
 }
 
 main

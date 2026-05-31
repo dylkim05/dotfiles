@@ -8,6 +8,7 @@ tap "homebrew/cask-fonts"
 brew "git"
 brew "starship"
 brew "zsh-autosuggestions"
+brew "gh"
 
 # Fonts
 cask "font-jetbrains-mono-nerd-font"
