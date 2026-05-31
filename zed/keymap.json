@@ -9,45 +9,49 @@
     },
   },
   {
-    "context": "TerminalPanel || Terminal",
+    "context": "Terminal",
     "bindings": {
-      "space q": "terminal_panel::Toggle",
+      "ctrl-q": "pane::CloseActiveItem",
     },
   },
   {
     "context": "GitPanel || GitPanel > Editor && VimControl && !VimWaiting && vim_mode != insert",
     "bindings": {
+      // focus
       "space f c": "git_panel::FocusChanges",
       "space f m": "git_panel::FocusEditor",
       "space q": "git_panel::Close",
+
+      // git actions
       "space g p": "git::Push",
       "space g shift-p": "git::Pull",
       "space g shift-s": "git::Switch",
       "space g c": "git::Commit",
       "space g c m": "git::GenerateCommitMessage",
-      "space g s": "git::StashAll",
-      "space g s p": "git::StashPop",
-      "space g s a": "git::StashAll",
     },
   },
   {
     "context": "ProjectPanel && not_editing",
     "bindings": {
+      // file operations
       "n f": "project_panel::NewFile",
       "n d": "project_panel::NewDirectory",
       "d": "project_panel::Delete",
       "r": "project_panel::Rename",
+
+      // close
       "space q": "project_panel::Toggle",
     },
   },
   {
+    // empty pane
     "context": "EmptyPane",
     "bindings": {
       "space q": "pane::CloseActiveItem",
-      "space q q ": "zed::Quit",
+      "space q q": "zed::Quit",
       "space n f": "workspace::NewFile",
       "space o p": "projects::OpenRecent",
-      "space s p": "projects::OpenRecent",
+      "space s p": "workspace::NewSearch",
     },
   },
   {
@@ -56,6 +60,13 @@
       // close pane
       "space q": "pane::CloseActiveItem",
       "space q a": "pane::CloseAllItems",
+
+      // projects
+      "space o p": "projects::OpenRecent",
+      "space s p": "workspace::NewSearch",
+
+      // search file
+      "space s f": "buffer_search::DeployReplace",
 
       // window splitting
       "space s v": "pane::SplitVertical",
@@ -66,9 +77,9 @@
       "space r": "workspace::ToggleRightDock",
       "space b": "workspace::ToggleBottomDock",
 
-      // focus panes
+      // focus panels
       "space g g": "git_panel::ToggleFocus",
-      "space t": "terminal_panel::ToggleFocus",
+      "space t": "workspace::NewCenterTerminal",
       "space p p": "project_panel::ToggleFocus",
       "space c p": "command_palette::Toggle",
       "space space": "file_finder::Toggle",
@@ -78,6 +89,35 @@
       "space g shift-p": "git::Pull",
       "space g shift-s": "git::Switch",
 
+      // tab navigation
+      "space i": "pane::ActivatePreviousItem",
+      "space o": "pane::ActivateNextItem",
+
+      // diagnostics
+      "space x x": "diagnostics::Deploy",
+      "]d": "editor::GoToDiagnostic",
+      "[d": "editor::GoToPreviousDiagnostic",
+
+      // git hunks
+      "]h": "editor::GoToHunk",
+      "[h": "editor::GoToPreviousHunk",
+
+      // lsp
+      "space c a": "editor::ToggleCodeActions",
+      "space c r": "editor::Rename",
+      "space c R": "editor::FindAllReferences",
+      "space c f": "editor::Format",
+      "g d": "editor::GoToDefinition",
+      "g t d": "editor::GoToTypeDefinition",
+      "K": "editor::Hover",
+
+      // symbols
+      "space s s": "outline::Toggle",
+      "space s S": "project_symbols::Toggle",
+
+      // zoom active pane
+      "space z": "workspace::ToggleZoom",
+
       // agent
       "space a a": "agent::ToggleFocus",
       "space n t": "agent::NewThread",
@@ -86,11 +126,16 @@
   {
     "context": "AgentPanel || AgentPanel > Editor && VimControl && !VimWaiting && vim_mode != insert",
     "bindings": {
+      // close
       "space q": "workspace::ToggleRightDock",
-      "space n t": "agent::NewThread",
+
+      // toggling docks
       "space l": "workspace::ToggleLeftDock",
       "space r": "workspace::ToggleRightDock",
       "space b": "workspace::ToggleBottomDock",
+
+      // agent
+      "space n t": "agent::NewThread",
     },
   },
 ]
