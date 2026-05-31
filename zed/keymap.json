@@ -41,6 +41,16 @@
     },
   },
   {
+    "context": "EmptyPane",
+    "bindings": {
+      "space q": "pane::CloseActiveItem",
+      "space q q ": "zed::Quit",
+      "space n f": "workspace::NewFile",
+      "space o p": "projects::OpenRecent",
+      "space s p": "projects::OpenRecent",
+    },
+  },
+  {
     "context": "Editor && VimControl && !VimWaiting && !menu && vim_mode != insert",
     "bindings": {
       // close pane
