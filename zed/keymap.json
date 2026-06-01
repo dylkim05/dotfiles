@@ -108,7 +108,7 @@
       // git actions
       "space g p": "git::Push",
       "space g shift-p": "git::Pull",
-      "space g shift-s": "git::Switch",
+      "space g s": "git::Switch",
 
       // tab navigation
       "g T": "pane::ActivatePreviousItem",
