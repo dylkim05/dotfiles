@@ -86,6 +86,9 @@
       "space o p": "projects::OpenRecent",
       "space s p": "workspace::NewSearch",
 
+      // workspace
+      "space o w": "workspace::NewWindow",
+
       // search file
       "space s f": "buffer_search::DeployReplace",
 
