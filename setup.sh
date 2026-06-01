@@ -111,16 +111,23 @@ function install_autosuggestions() {
                         warn "ble.sh already installed, skipping"
                     else
                         info "Installing ble.sh for bash autosuggestions..."
-                        git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git
-                        make -C ble.sh install PREFIX=~/.local
-                        rm -rf ble.sh
+                        curl -L https://github.com/akinomyoga/ble.sh/releases/download/nightly/ble-nightly.tar.xz | tar xJf -
+                        bash ble-nightly/ble.sh --install ~/.local/share
+                        rm -rf ble-nightly
                     fi
-                    # Ensure ble.sh is sourced in .bashrc
-                    if ! grep -q 'source ~/.local/share/blesh/ble.sh' ~/.bashrc 2>/dev/null; then
-                        echo '[[ -f ~/.local/share/blesh/ble.sh ]] && source ~/.local/share/blesh/ble.sh' >> ~/.bashrc
+                    # Ensure ble.sh is sourced in .bashrc with quiet, interactive-only attach
+                    if ! grep -q 'ble.sh --attach=none' ~/.bashrc 2>/dev/null; then
+                        echo '[[ $- == *i* ]] && source -- ~/.local/share/blesh/ble.sh --attach=none 2>/dev/null' >> ~/.bashrc
                         info "Added ble.sh source line to ~/.bashrc"
                     else
                         info "ble.sh already sourced in ~/.bashrc"
+                    fi
+
+                    if ! grep -q 'ble-attach' ~/.bashrc 2>/dev/null; then
+                        echo '[[ ! ${BLE_VERSION-} ]] || ble-attach 2>/dev/null' >> ~/.bashrc
+                        info "Added ble-attach line to ~/.bashrc"
+                    else
+                        info "ble-attach already present in ~/.bashrc"
                     fi
                     break
                     ;;
