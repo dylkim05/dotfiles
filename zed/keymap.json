@@ -47,18 +47,39 @@
     // empty pane
     "context": "EmptyPane",
     "bindings": {
-      "space q": "pane::CloseActiveItem",
-      "space q q": "zed::Quit",
+      "space q w": "pane::CloseActiveItem",
+      "space q z": "zed::Quit",
       "space n f": "workspace::NewFile",
       "space o p": "projects::OpenRecent",
       "space s p": "workspace::NewSearch",
+
+      // toggling docks
+      "space l": "workspace::ToggleLeftDock",
+      "space r": "workspace::ToggleRightDock",
+      "space b": "workspace::ToggleBottomDock",
+
+      // focus panels
+      "space g g": "git_panel::ToggleFocus",
+      "space t": "workspace::NewCenterTerminal",
+      "space p p": "project_panel::ToggleFocus",
+      "space c p": "command_palette::Toggle",
+      "space space": "file_finder::Toggle",
+
+      // agent
+      "space a a": "agent::ToggleFocus",
+      "space n t": "agent::NewThread",
+
+      // git actions
+      "space g p": "git::Push",
+      "space g shift-p": "git::Pull",
+      "space g s": "git::Switch",
     },
   },
   {
     "context": "Editor && VimControl && !VimWaiting && !menu && vim_mode != insert",
     "bindings": {
       // close pane
-      "space q": "pane::CloseActiveItem",
+      "space q w": "pane::CloseActiveItem",
       "space q a": "pane::CloseAllItems",
 
       // projects
@@ -90,8 +111,8 @@
       "space g shift-s": "git::Switch",
 
       // tab navigation
-      "space i": "pane::ActivatePreviousItem",
-      "space o": "pane::ActivateNextItem",
+      "g T": "pane::ActivatePreviousItem",
+      "g t": "pane::ActivateNextItem",
 
       // diagnostics
       "space x x": "diagnostics::Deploy",
@@ -107,8 +128,8 @@
       "space c r": "editor::Rename",
       "space c R": "editor::FindAllReferences",
       "space c f": "editor::Format",
-      "g d": "editor::GoToDefinition",
-      "g t d": "editor::GoToTypeDefinition",
+      "space d": "editor::GoToDefinition",
+      "space t d": "editor::GoToTypeDefinition",
       "K": "editor::Hover",
 
       // symbols

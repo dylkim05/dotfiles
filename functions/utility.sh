@@ -5,10 +5,19 @@ function link_file() {
     if [ -L "$dest" ]; then
         info "Already linked: $dest, skipping"
     elif [ -f "$dest" ]; then
-        warn "Real file exists at $dest, backing up to $dest.bak"
-        mv "$dest" "$dest.bak"
-        ln -sf "$src" "$dest"
-        info "Linked: $dest"
+        warn "Real file exists at $dest."
+        read -p "A file exists at $dest. Overwrite? [y/N]: " answer
+        case "$answer" in
+            [yY][eE][sS]|[yY])
+                warn "Backing up to $dest.bak"
+                mv "$dest" "$dest.bak"
+                ln -sf "$src" "$dest"
+                info "Linked: $dest"
+                ;;
+            *)
+                info "Skipped: $dest"
+                ;;
+        esac
     else
         ln -sf "$src" "$dest"
         echo "Linked: $dest"

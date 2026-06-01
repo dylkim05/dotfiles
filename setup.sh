@@ -106,19 +106,24 @@ function install_autosuggestions() {
                 fi
                 break
                 ;;
-            bash)
-                if [ -f ~/.local/share/blesh/ble.sh ]; then
-                    warn "ble.sh already installed, skipping"
-                else
-                    info "Installing ble.sh for bash autosuggestions..."
-                    git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git
-                    make -C ble.sh install PREFIX=~/.local
-                fi
-                break
-                ;;
-            *)
-                warn "Invalid choice, please select 1 (zsh) or 2 (bash)"
-                ;;
+                bash)
+                    if [ -f ~/.local/share/blesh/ble.sh ]; then
+                        warn "ble.sh already installed, skipping"
+                    else
+                        info "Installing ble.sh for bash autosuggestions..."
+                        git clone --recursive --depth 1 --shallow-submodules https://github.com/akinomyoga/ble.sh.git
+                        make -C ble.sh install PREFIX=~/.local
+                        rm -rf ble.sh
+                    fi
+                    # Ensure ble.sh is sourced in .bashrc
+                    if ! grep -q 'source ~/.local/share/blesh/ble.sh' ~/.bashrc 2>/dev/null; then
+                        echo '[[ -f ~/.local/share/blesh/ble.sh ]] && source ~/.local/share/blesh/ble.sh' >> ~/.bashrc
+                        info "Added ble.sh source line to ~/.bashrc"
+                    else
+                        info "ble.sh already sourced in ~/.bashrc"
+                    fi
+                    break
+                    ;;
         esac
     done
 
