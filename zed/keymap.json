@@ -12,6 +12,8 @@
     "context": "Terminal",
     "bindings": {
       "ctrl-q": "pane::CloseActiveItem",
+      "ctrl-o": "pane::ActivateNextItem",
+      "ctrl-i": "pane::ActivatePreviousItem",
     },
   },
   {
