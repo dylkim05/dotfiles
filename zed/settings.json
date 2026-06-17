@@ -1,4 +1,5 @@
 {
+  "helix_mode": false,
   "agent_servers": {
     "claude-acp": {
       "type": "registry",
@@ -27,8 +28,8 @@
     "default_profile": "write",
     "default_model": {
       "effort": "low",
-      "provider": "zed.dev",
-      "model": "claude-sonnet-4-6",
+      "provider": "copilot_chat",
+      "model": "claude-sonnet-4.6",
       "enable_thinking": true,
     },
     "favorite_models": [],
@@ -50,4 +51,14 @@
     "font_family": "JetBrainsMono Nerd Font Mono",
     "font_size": 14,
   },
+  "file_scan_exclusions": [
+    "**/.git",
+    "**/.svn",
+    "**/.hg",
+    "**/CVS",
+    "**/.DS_Store",
+    "**/Thumbs.db",
+    "**/.classpath",
+    "**/bazel-*",
+  ],
 }

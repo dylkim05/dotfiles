@@ -1,6 +1,6 @@
 [
   {
-    "context": "Dock || Terminal || Editor && VimControl && vim_mode != insert",
+    "context": "Pane || Dock || Terminal || Editor && VimControl && vim_mode != insert",
     "bindings": {
       "ctrl-h": "workspace::ActivatePaneLeft",
       "ctrl-l": "workspace::ActivatePaneRight",
@@ -52,24 +52,22 @@
       "space q w": "pane::CloseActiveItem",
       "space q z": "zed::Quit",
       "space n f": "workspace::NewFile",
-      "space o p": "projects::OpenRecent",
+      "space n p": "projects::OpenRecent",
+      "space n t": "agent::NewThread",
       "space s p": "workspace::NewSearch",
 
-      // toggling docks
-      "space l": "workspace::ToggleLeftDock",
-      "space r": "workspace::ToggleRightDock",
-      "space b": "workspace::ToggleBottomDock",
+      // open panels
+      "space o l": "workspace::ToggleLeftDock",
+      "space o r": "workspace::ToggleRightDock",
+      "space o b": "workspace::ToggleBottomDock",
+      "space o g": "git_panel::ToggleFocus",
+      "space o p": "project_panel::ToggleFocus",
+      "space o a": "agent::ToggleFocus",
+      "space o t": "workspace::NewTerminal",
 
-      // focus panels
-      "space g g": "git_panel::ToggleFocus",
-      "space t": "workspace::NewCenterTerminal",
-      "space p p": "project_panel::ToggleFocus",
+      // misc
       "space c p": "command_palette::Toggle",
       "space space": "file_finder::Toggle",
-
-      // agent
-      "space a a": "agent::ToggleFocus",
-      "space n t": "agent::NewThread",
 
       // git actions
       "space g p": "git::Push",
@@ -84,29 +82,32 @@
       "space q w": "pane::CloseActiveItem",
       "space q a": "pane::CloseAllItems",
 
-      // projects
-      "space o p": "projects::OpenRecent",
+      // navigate
+      "space n p": "projects::OpenRecent",
+      "space n t": "agent::NewThread",
+
+      // search
       "space s p": "workspace::NewSearch",
-
-      // workspace
-      "space o w": "workspace::NewWindow",
-
-      // search file
       "space s f": "buffer_search::DeployReplace",
+      "space s s": "outline::Toggle",
+      "space s S": "project_symbols::Toggle",
 
-      // window splitting
-      "space s v": "pane::SplitVertical",
-      "space s h": "pane::SplitHorizontal",
+      // window/splits
+      "space w v": "pane::SplitVertical",
+      "space w h": "pane::SplitHorizontal",
+      "space w w": "workspace::NewWindow",
+      "space w z": "workspace::ToggleZoom",
 
-      // toggling docks
-      "space l": "workspace::ToggleLeftDock",
-      "space r": "workspace::ToggleRightDock",
-      "space b": "workspace::ToggleBottomDock",
+      // open panels
+      "space o l": "workspace::ToggleLeftDock",
+      "space o r": "workspace::ToggleRightDock",
+      "space o b": "workspace::ToggleBottomDock",
+      "space o g": "git_panel::ToggleFocus",
+      "space o p": "project_panel::ToggleFocus",
+      "space o a": "agent::ToggleFocus",
+      "space o t": "workspace::NewTerminal",
 
-      // focus panels
-      "space g g": "git_panel::ToggleFocus",
-      "space t": "workspace::NewCenterTerminal",
-      "space p p": "project_panel::ToggleFocus",
+      // misc
       "space c p": "command_palette::Toggle",
       "space space": "file_finder::Toggle",
 
@@ -120,7 +121,6 @@
       "g t": "pane::ActivateNextItem",
 
       // diagnostics
-      "space x x": "diagnostics::Deploy",
       "]d": "editor::GoToDiagnostic",
       "[d": "editor::GoToPreviousDiagnostic",
 
@@ -133,34 +133,30 @@
       "space c r": "editor::Rename",
       "space c R": "editor::FindAllReferences",
       "space c f": "editor::Format",
-      "space d": "editor::GoToDefinition",
-      "space t d": "editor::GoToTypeDefinition",
+      "space c d": "editor::GoToDefinition",
+      "space c t": "editor::GoToTypeDefinition",
+      "space c x": "diagnostics::Deploy",
       "K": "editor::Hover",
-
-      // symbols
-      "space s s": "outline::Toggle",
-      "space s S": "project_symbols::Toggle",
-
-      // zoom active pane
-      "space z": "workspace::ToggleZoom",
-
-      // agent
-      "space a a": "agent::ToggleFocus",
-      "space n t": "agent::NewThread",
     },
   },
   {
-    "context": "AgentPanel || AgentPanel > Editor && VimControl && !VimWaiting && vim_mode != insert",
+    "context": "Editor && VimControl && !VimWaiting && !menu && vim_mode == visual",
+    "bindings": {
+      "space a a": "agent::AddSelectionToThread",
+    },
+  },
+  {
+    "context": "(AgentPanel > AcpThread > !MessageEditor) || (AgentPanel > Editor && VimControl && !VimWaiting && vim_mode != insert)",
     "bindings": {
       // close
       "space q": "workspace::ToggleRightDock",
 
-      // toggling docks
-      "space l": "workspace::ToggleLeftDock",
-      "space r": "workspace::ToggleRightDock",
-      "space b": "workspace::ToggleBottomDock",
+      // open panels
+      "space o l": "workspace::ToggleLeftDock",
+      "space o r": "workspace::ToggleRightDock",
+      "space o b": "workspace::ToggleBottomDock",
 
-      // agent
+      // navigate
       "space n t": "agent::NewThread",
     },
   },
