@@ -1,7 +1,43 @@
 {
   "helix_mode": false,
+  "semantic_tokens": "combined",
+  "lsp": {
+    "lean4-lsp": {
+      "binary": {
+        "path": "/Users/dylankim/.elan/bin/lake",
+        "arguments": ["serve", "--"],
+      },
+      "settings": {
+        "elan_auto_install": true,
+        "elan_default_toolchain": "stable",
+      },
+    },
+  },
+  "languages": {
+    "R": {
+      "language_servers": ["air"],
+    },
+    "Python": {
+      "language_servers": ["ty", "!basedpyright"],
+    },
+    "SQL": {
+      "format_on_save": "on",
+      "formatter": {
+        "external": {
+          "command": "sql-formatter",
+          "arguments": ["--language", "sqlite"],
+        },
+      },
+    },
+    "TypeScript": {
+      "format_on_save": "on",
+    },
+  },
   "agent_servers": {
     "claude-acp": {
+      "default_config_options": {
+        "mode": "auto",
+      },
       "type": "registry",
     },
   },
