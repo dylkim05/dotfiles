@@ -1,17 +1,11 @@
-# Brewfile - managed by dotfiles
-# Install everything with: brew bundle
-
-# Taps
-tap "homebrew/cask-fonts"
-
-# CLI tools
 brew "git"
 brew "starship"
 brew "zsh-autosuggestions"
 brew "gh"
+brew "stow"
 
-# Fonts
 cask "font-jetbrains-mono-nerd-font"
 
-# Apps
 cask "zed"
+cask "zen"
+cask "docker-desktop"

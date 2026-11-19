@@ -1,6 +1,6 @@
 # dotfiles
 
-Personal dotfiles for macOS, managed with symlinks.
+Personal dotfiles for macOS, managed with [GNU Stow](https://www.gnu.org/software/stow/).
 
 ## Setup
 
@@ -10,45 +10,43 @@ cd ~/.dotfiles
 ./setup.sh
 ```
 
-The setup script will:
+The setup script (Apple Silicon Macs only) will:
 
 1. Install [Homebrew](https://brew.sh) if not already present
 2. Clone/sync the repo to `~/.dotfiles`
-3. Symlink all config files to their target locations (existing files are backed up as `.bak`)
-4. Install JetBrains Mono Nerd Font
-5. Install [Starship](https://starship.rs) prompt
-6. Install shell autosuggestions (zsh-autosuggestions or ble.sh depending on your shell choice)
+3. Install everything in the `Brewfile` (git, gh, stow, [Starship](https://starship.rs), zsh-autosuggestions, JetBrains Mono Nerd Font, Zed)
+4. Symlink each package into `$HOME` with Stow (existing files are backed up as `.bak.<timestamp>`, stale symlinks are replaced)
+5. Log in to the GitHub CLI if needed
 
-You can also install all tools declaratively via the Brewfile:
-
-```sh
-brew bundle
-```
+To add a tool, add it to the `Brewfile` and re-run `./setup.sh` (or `brew bundle`).
 
 ## Structure
 
+Each top-level package directory mirrors `$HOME`, and Stow links its files into place.
+
 ```
 .dotfiles/
-├── shell/
-│   ├── zshrc             → ~/.zshrc
-│   ├── bashrc            → ~/.bashrc
-│   └── starship/         # starship prompt config
-├── zed/
-│   ├── keymap.json       → ~/.config/zed/keymap.json
-│   └── settings.json     → ~/.config/zed/settings.json
+├── zsh/.zshrc                          → ~/.zshrc
+├── bash/.bashrc                        → ~/.bashrc  (minimal fallback, prompt only)
+├── starship/.config/starship.toml      → ~/.config/starship.toml
+├── zed/.config/zed/
+│   ├── keymap.json                     → ~/.config/zed/keymap.json
+│   └── settings.json                   → ~/.config/zed/settings.json
 ├── functions/
-│   ├── print.sh          # logging helpers
-│   └── utility.sh        # install/link helpers
-├── Brewfile              # declarative tool/app installs
-├── symlinks.conf         # symlink mappings (src → dest)
-└── setup.sh              # bootstrap script
+│   ├── print.sh                        # logging helpers
+│   └── utility.sh                      # install/link helpers
+├── Brewfile                            # declarative tool/app installs
+└── setup.sh                            # bootstrap script
 ```
 
 ## Adding a New Dotfile
 
-1. Place the file under the appropriate directory in `~/.dotfiles`
-2. Add a line to `symlinks.conf`:
+1. Put the file in a package at the same path it has relative to `$HOME`,
+   e.g. `ghostty/.config/ghostty/config` → `~/.config/ghostty/config`
+2. If it's a new package, add its name to `STOW_PACKAGES` in `setup.sh`
+3. Re-run `./setup.sh`, or link it directly:
+   ```sh
+   stow -d ~/.dotfiles -t ~ --no-folding <package>
    ```
-   relative/path/to/file ~/.target/path
-   ```
-3. Re-run `./setup.sh` to apply
+
+To remove a package's links: `stow -d ~/.dotfiles -t ~ -D <package>`

@@ -29,7 +29,7 @@
       "space g shift-p": "git::Pull",
       "space g shift-s": "git::Switch",
       "space g c": "git::Commit",
-      "space g c m": "git::GenerateCommitMessage",
+      "space g m": "git::GenerateCommitMessage",
     },
   },
   {
@@ -97,6 +97,7 @@
       "space w h": "pane::SplitHorizontal",
       "space w w": "workspace::NewWindow",
       "space w z": "workspace::ToggleZoom",
+      "g b": "pane::GoBack",
 
       // open panels
       "space o l": "workspace::ToggleLeftDock",
