@@ -14,7 +14,7 @@ The setup script (Apple Silicon Macs only) will:
 
 1. Install [Homebrew](https://brew.sh) if not already present
 2. Clone/sync the repo to `~/.dotfiles`
-3. Install everything in the `Brewfile` (git, gh, stow, [Starship](https://starship.rs), zsh-autosuggestions, JetBrains Mono Nerd Font, Zed)
+3. Install anything missing from the `Brewfile` (gh, stow, [Starship](https://starship.rs), zsh-autosuggestions, JetBrains Mono Nerd Font, Zed)
 4. Symlink each package into `$HOME` with Stow (existing files are backed up as `.bak.<timestamp>`, stale symlinks are replaced)
 5. Log in to the GitHub CLI if needed
 
