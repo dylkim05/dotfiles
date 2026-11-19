@@ -18,7 +18,7 @@ function install_homebrew() {
 
     info "installing Homebrew (this asks for your password)"
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || return
-    # A fresh install isn't on PATH yet in this shell
+
     eval "$(/opt/homebrew/bin/brew shellenv)"
     ok "installed"
 }
@@ -40,12 +40,12 @@ function sync_repo() {
 function install_packages() {
     step "Packages"
 
-    if brew bundle check --file="$DOTFILES/Brewfile" &>/dev/null; then
+    if brew bundle check --no-upgrade --file="$DOTFILES/Brewfile" &>/dev/null; then
         skip "everything in the Brewfile is installed"
         return
     fi
 
-    run brew bundle install --file="$DOTFILES/Brewfile" || return
+    run brew bundle install --no-upgrade --file="$DOTFILES/Brewfile" || return
     ok "installed Brewfile packages"
 }
 
@@ -53,8 +53,6 @@ function link_dotfiles() {
     step "Dotfiles"
 
     prepare_stow_targets "${STOW_PACKAGES[@]}"
-    # --no-folding links individual files, so apps (e.g. Zed) don't write
-    # runtime data into the repo through a symlinked directory.
     run stow --dir="$DOTFILES" --target="$HOME" --no-folding --restow "${STOW_PACKAGES[@]}" || return
     ok "linked ${STOW_PACKAGES[*]}"
 }
@@ -91,5 +89,4 @@ main() {
     printf '\n%s✓ Done in %ds%s\n\n' "$GREEN$BOLD" "$SECONDS" "$RESET"
 }
 
-# Only run when executed directly, so the functions can be sourced for testing
 [[ "${BASH_SOURCE[0]}" == "$0" ]] && main
